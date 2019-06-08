@@ -30,7 +30,7 @@ public abstract class Actor : MonoBehaviour
 
     protected abstract void Movement();
 
-    protected void TakeDamage(int damage)
+    public void TakeDamage(int damage)
     {
         _health -= damage;
 

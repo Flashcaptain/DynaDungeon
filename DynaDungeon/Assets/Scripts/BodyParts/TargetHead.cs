@@ -17,4 +17,9 @@ public class TargetHead : MonoBehaviour
     {
         GetComponentInParent<Enemy>().AddStats(_health, _speed, _roundsPerSecond, null);
     }
+
+    public bool CanSeePlayer(Player player)
+    {
+        return true;
+    }
 }

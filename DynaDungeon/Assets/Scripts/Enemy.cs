@@ -25,12 +25,20 @@ public class Enemy : Actor
     [SerializeField]
     private List<StatBoots> _statBoots;
 
+    private Player _player;
+    private bool _isReloading;
+
+    private FireArm _fireArm;
+    private TargetHead _targetHead;
+    private MovementLegs _movementLeg;
+
     private void Start()
     {
-        Instantiate(_fireArms[Random.Range(0, _fireArms.Count)], transform);
+        _player = FindObjectOfType<Player>();
+        _fireArm = Instantiate(_fireArms[Random.Range(0, _fireArms.Count)], transform);
+        _targetHead = Instantiate(_targetHeads[Random.Range(0, _targetHeads.Count)], transform);
+        _movementLeg = Instantiate(_movementLegs[Random.Range(0, _movementLegs.Count)], transform);
         Instantiate(_ammoArms[Random.Range(0, _ammoArms.Count)], transform);
-        Instantiate(_targetHeads[Random.Range(0, _targetHeads.Count)], transform);
-        Instantiate(_movementLegs[Random.Range(0, _movementLegs.Count)], transform);
         Instantiate(_statTorsos[Random.Range(0, _statTorsos.Count)], transform);
         Instantiate(_statBoots[Random.Range(0, _statBoots.Count)], transform);
     }
@@ -49,28 +57,28 @@ public class Enemy : Actor
 
     void Update()
     {
-        if (!_isAlive)
+        if (!_isAlive || !_targetHead.CanSeePlayer(_player))
         {
             _rigidbody.velocity /= 1.8f;
+            _rigidbody.angularVelocity /= 1.8f;
             return;
         }
-
+        Debug.Log("move");
         Rotation();
         Movement();
         Shoot();
-
         GroundCheck();
 
     }
 
     protected override void Rotation()
     {
-
+        transform.LookAt(_movementLeg.MoveTowards(_player));
     }
 
     protected override void Movement()
     {
-
+        _rigidbody.AddForce(transform.forward * _speed);
     }
 
     void GroundCheck()
@@ -90,13 +98,21 @@ public class Enemy : Actor
         }
         if (onGroundPoints == 0)
         {
+            Debug.Log("fall");
             _isAlive = false;
         }
     }
 
-    private void Shoot()
+    void Shoot()
     {
+        _fireArm.Fire(_bullet);
+        _isReloading = true;
+        Invoke("Reload", -1 / _roundsPerSecond);
+    }
 
+    void Reload()
+    {
+        _isReloading = false;
     }
 
     private void OnCollisionEnter(Collision other)
@@ -105,6 +121,7 @@ public class Enemy : Actor
         if (player != null)
         {
             TakeDamage(_bashForce);
+            player.TakeDamage(_bashForce);
             _rigidbody.AddForce(-transform.forward * _bashForce);
             player._rigidbody.velocity = transform.forward * _bashForce;
         }

@@ -33,6 +33,7 @@ public class Player : Actor
         if (!_isAlive)
         {
             _rigidbody.velocity /= 1.8f;
+            _rigidbody.angularVelocity /= 1.8f;
             return;
         }
 

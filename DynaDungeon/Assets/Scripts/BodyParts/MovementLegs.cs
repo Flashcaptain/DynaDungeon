@@ -14,4 +14,9 @@ public class MovementLegs : MonoBehaviour
     {
         GetComponentInParent<Enemy>().AddStats(_health, _speed, 0, null);
     }
+
+    public Vector3 MoveTowards(Player player)
+    {
+        return new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
+    }
 }

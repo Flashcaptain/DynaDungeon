@@ -2747,24 +2747,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 413c7171659ae4ba4884b52b866273fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _rigidbody: {fileID: 2861422922045152084}
   _health: 100
   _roundsPerSecond: 1
   _speed: 12
-  _weelSpeed: 8
-  _brakeSpeed: 0.25
   _floorName: Lava
-  _weel: {fileID: 2861422921676173518}
-  _bullet: {fileID: 4503289378536904177, guid: 3d58ccaf09ab14efc8155ecfe1148c49, type: 3}
-  _barrels:
-  - {fileID: 2861422923242776801}
-  - {fileID: 2861422922170829678}
   _groundCheck:
   - {fileID: 1187335573}
   - {fileID: 7826385174546530983}
   - {fileID: 5626523448692424230}
   - {fileID: 3384326366722498148}
-  _rigidbody: {fileID: 2861422922045152084}
+  _bullet: {fileID: 4503289378536904177, guid: 3d58ccaf09ab14efc8155ecfe1148c49, type: 3}
+  _weelSpeed: 8
+  _brakeSpeed: 0.25
+  _weel: {fileID: 2861422921676173518}
   _trailRenderer: {fileID: 1469523202}
+  _barrels:
+  - {fileID: 2861422923242776801}
+  - {fileID: 2861422922170829678}
 --- !u!135 &2861422922045152085
 SphereCollider:
   m_ObjectHideFlags: 0
