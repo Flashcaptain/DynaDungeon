@@ -17,6 +17,9 @@ public class Player : Actor
     [SerializeField]
     private TrailRenderer _trailRenderer;
 
+    [SerializeField]
+    private List<Transform> _barrels;
+
     private float _drag;
     private bool _isReloading;
 
@@ -44,7 +47,7 @@ public class Player : Actor
 
     }
 
-    void Rotation()
+    protected override void Rotation()
     {
         RaycastHit hit;
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -55,7 +58,7 @@ public class Player : Actor
         }
     }
 
-    void Movement()
+    protected override void Movement()
     {  
 
         if (!Input.GetKey(KeyCode.Space))

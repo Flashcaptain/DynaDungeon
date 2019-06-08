@@ -6,11 +6,11 @@ public class Bullet : MonoBehaviour
 {
     public int _damage;
 
-    [SerializeField]
-    private float _speed;
+    public float _speed;
 
-    [SerializeField]
-    private float _distance;
+    public float _distance;
+
+    public Material _material;
 
     void Update()
     {

@@ -4,6 +4,75 @@ using UnityEngine;
 
 public class Enemy : Actor
 {
+    [SerializeField]
+    private int _bashForce;
+
+    [SerializeField]
+    private List<FireArm> _fireArms;
+
+    [SerializeField]
+    private List<AmmoArm> _ammoArms;
+
+    [SerializeField]
+    private List<TargetHead> _targetHeads;
+
+    [SerializeField]
+    private List<MovementLegs> _movementLegs;
+
+    [SerializeField]
+    private List<StatTorso> _statTorsos;
+
+    [SerializeField]
+    private List<StatBoots> _statBoots;
+
+    private void Start()
+    {
+        Instantiate(_fireArms[Random.Range(0, _fireArms.Count)], transform);
+        Instantiate(_ammoArms[Random.Range(0, _ammoArms.Count)], transform);
+        Instantiate(_targetHeads[Random.Range(0, _targetHeads.Count)], transform);
+        Instantiate(_movementLegs[Random.Range(0, _movementLegs.Count)], transform);
+        Instantiate(_statTorsos[Random.Range(0, _statTorsos.Count)], transform);
+        Instantiate(_statBoots[Random.Range(0, _statBoots.Count)], transform);
+    }
+
+    public void AddStats(int health, int speed, float roundsPerSecond, Bullet bullet)
+    {
+        _health += health;
+        _speed += speed;
+        _roundsPerSecond += roundsPerSecond;
+
+        if (bullet != null)
+        {
+            _bullet = bullet;
+        }
+    }
+
+    void Update()
+    {
+        if (!_isAlive)
+        {
+            _rigidbody.velocity /= 1.8f;
+            return;
+        }
+
+        Rotation();
+        Movement();
+        Shoot();
+
+        GroundCheck();
+
+    }
+
+    protected override void Rotation()
+    {
+
+    }
+
+    protected override void Movement()
+    {
+
+    }
+
     void GroundCheck()
     {
         int onGroundPoints = _groundCheck.Count;
@@ -25,16 +94,19 @@ public class Enemy : Actor
         }
     }
 
+    private void Shoot()
+    {
+
+    }
+
     private void OnCollisionEnter(Collision other)
     {
-        Debug.Log("onk");
         Player player = other.collider.GetComponent<Player>();
         if (player != null)
         {
-            Debug.Log("bonknplayer");
-            TakeDamage(10);
-            _rigidbody.AddForce(player._rigidbody.velocity * 10);
-            player._rigidbody.velocity = new Vector3(0,0,0);
+            TakeDamage(_bashForce);
+            _rigidbody.AddForce(-transform.forward * _bashForce);
+            player._rigidbody.velocity = transform.forward * _bashForce;
         }
     }
 }

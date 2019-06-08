@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Actor : MonoBehaviour
+public abstract class Actor : MonoBehaviour
 {
     public Rigidbody _rigidbody;
 
@@ -22,12 +22,13 @@ public class Actor : MonoBehaviour
     protected List<Transform> _groundCheck;
 
     [SerializeField]
-    protected List<Transform> _barrels;
-
-    [SerializeField]
     protected Bullet _bullet;
 
     protected bool _isAlive = true;
+
+    protected abstract void Rotation();
+
+    protected abstract void Movement();
 
     protected void TakeDamage(int damage)
     {
