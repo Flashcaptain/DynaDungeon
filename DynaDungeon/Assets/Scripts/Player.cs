@@ -2,16 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Actor
 {
-    [SerializeField]
-    private int _health;
-
-    [SerializeField]
-    private float _roundsPerSecond;
-
-    [SerializeField]
-    private float _speed;
 
     [SerializeField]
     private float _weelSpeed;
@@ -23,13 +15,7 @@ public class Player : MonoBehaviour
     private GameObject _weel;
 
     [SerializeField]
-    private Bullet _bullet;
-
-    [SerializeField]
-    private List<Transform> _barrels;
-
-    [SerializeField]
-    private Rigidbody _rigidbody;
+    private TrailRenderer _trailRenderer;
 
     private float _drag;
     private bool _isReloading;
@@ -41,8 +27,15 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        if (!_isAlive)
+        {
+            _rigidbody.velocity /= 1.8f;
+            return;
+        }
+
         Rotation();
         Movement();
+        GroundCheck();
 
         if (Input.GetKey(KeyCode.Mouse0) && !_isReloading)
         {
@@ -63,7 +56,8 @@ public class Player : MonoBehaviour
     }
 
     void Movement()
-    {
+    {  
+
         if (!Input.GetKey(KeyCode.Space))
         {
             float verticalInput = Input.GetAxis("Vertical");
@@ -81,6 +75,31 @@ public class Player : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Space))
         {
             _rigidbody.drag = _drag;
+        }
+    }
+
+    void GroundCheck()
+    {
+        int onGroundPoints = _groundCheck.Count;
+        for (int i = 0; i < _groundCheck.Count; i++)
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(_groundCheck[i].position, -_groundCheck[i].up, out hit, 100))
+            {
+                if (hit.collider.name == _floorName)
+                {
+                    _trailRenderer.emitting = false;
+                    onGroundPoints--;
+                }
+            }
+        }
+        if (onGroundPoints == 0)
+        {
+            _isAlive = false;
+        }
+        else if (onGroundPoints == _groundCheck.Count)
+        {
+            _trailRenderer.emitting = true;
         }
     }
 
