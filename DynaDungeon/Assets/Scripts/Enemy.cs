@@ -101,9 +101,10 @@ public class Enemy : Actor
                 }
             }
         }
-        if (onGroundPoints == 0)
+        if (onGroundPoints == 0 && _isAlive)
         {
             _isAlive = false;
+            Death();
             _animator.SetTrigger(_fallAnimation);
         }
     }
@@ -122,6 +123,6 @@ public class Enemy : Actor
 
     protected override void Death()
     {
-
+        PlatformManeger.Instance._aliveEnemies--;
     }
 }

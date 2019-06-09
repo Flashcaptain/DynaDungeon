@@ -41,8 +41,9 @@ public class Player : Actor
         _maxHealth = _health;
         _healthBar.maxValue = _maxHealth;
         _healthBar.value = _maxHealth;
+        _bullet._damage = _bullet._startDamage;
+        _bullet._distance = _bullet._startDistance;
     }
-
     void Update()
     {
         if (!_isAlive)
@@ -80,7 +81,7 @@ public class Player : Actor
     }
 
     protected override void Movement()
-    {  
+    {
 
         if (!Input.GetKey(KeyCode.Space))
         {
@@ -183,6 +184,19 @@ public class Player : Actor
             {
                 enemy._rigidbody.velocity = -enemy.transform.forward * _dashForce;
             }
+            return;
+        }
+    }
+    protected void OnTriggerEnter(Collider other)
+    {
+        base.OnTriggerEnter(other);
+
+        Health health = other.GetComponent<Health>();
+        if (health != null)
+        {
+            TakeDamage(-health._health);
+            health.PickUp();
+            return;
         }
     }
 }

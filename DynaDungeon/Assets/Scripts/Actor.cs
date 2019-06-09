@@ -48,13 +48,14 @@ public abstract class Actor : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        if (!_isImumme && _isAlive) {
+        if (damage < 0 || !_isImumme && _isAlive) {
             _health -= damage;
 
             if (_health <= 0)
             {
                 _health = 0;
                 _isAlive = false;
+                Death();
             }
             _healthBar.value = _health;
         }
@@ -65,7 +66,7 @@ public abstract class Actor : MonoBehaviour
         _healthBar.transform.LookAt(Camera.main.transform);
     }
 
-    private void OnTriggerEnter(Collider other)
+    protected void OnTriggerEnter(Collider other)
     {
         Bullet bullet = other.GetComponent<Bullet>();
         if (bullet != null)

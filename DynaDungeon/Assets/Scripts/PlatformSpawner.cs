@@ -48,27 +48,31 @@ public class PlatformSpawner : MonoBehaviour
 
         for (int i = 0; i < _SpawnebleObjectPositions.Count; i++)
         {
-            for (int j = 0; j < platform._spawnebleObjects.Count; j++)
+            GameObject spawnedObject = null;
+            switch (platform._spawnebleObjects[i])
             {
-                GameObject spawnedObject = null;
-                switch (platform._spawnebleObjects[i])
-                {
-                    case EnumSpawnebleObjects.Wall:
-                        spawnedObject = Instantiate(_wall, _SpawnebleObjectPositions[i]);
-                        break;
-                    case EnumSpawnebleObjects.Enemy:
-                        spawnedObject =Instantiate(_enemy, _SpawnebleObjectPositions[i]);
-                        break;
-                    case EnumSpawnebleObjects.HealthPack:
-                        spawnedObject =Instantiate(_healthPack, _SpawnebleObjectPositions[i]);
-                        break;
-                    case EnumSpawnebleObjects.None:
-                        break;
-                }
-                if (spawnedObject != null)
-                {
-                    _currentGameObjects.Add(spawnedObject);
-                }
+                case EnumSpawnebleObjects.Wall:
+                    spawnedObject = Instantiate(_wall, _SpawnebleObjectPositions[i]);
+                    break;
+                case EnumSpawnebleObjects.Enemy:
+                    if (!platform._completed)
+                    {
+                        spawnedObject = Instantiate(_enemy, _SpawnebleObjectPositions[i]);
+                        PlatformManeger.Instance._aliveEnemies++;
+                    }
+                    break;
+                case EnumSpawnebleObjects.HealthPack:
+                    if (!platform._completed)
+                    {
+                        spawnedObject = Instantiate(_healthPack, _SpawnebleObjectPositions[i]);
+                    }
+                    break;
+                case EnumSpawnebleObjects.None:
+                    break;
+            }
+            if (spawnedObject != null)
+            {
+                _currentGameObjects.Add(spawnedObject);
             }
         }
     }

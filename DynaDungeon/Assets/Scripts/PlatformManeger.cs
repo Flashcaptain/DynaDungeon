@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class PlatformManeger : MonoBehaviour
 {
+    public static PlatformManeger Instance;
+
+    public int _aliveEnemies;
+
+    [SerializeField]
+    private Player _player;
+
     [SerializeField]
     private Vector2 _currentMapPosition = new Vector2(0,0);
 
@@ -11,13 +18,57 @@ public class PlatformManeger : MonoBehaviour
     private List<Platform> _platform = new List<Platform>();
 
     private Platform _currentPlatform;
+    private bool _onExitCooldown;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void Start()
+    {
+        _Positions.Add(_currentMapPosition);
+        List<bool> bools = new List<bool>();
+        for (int i = 0; i < PlatformSpawner.Instance._Walls.Count; i++)
+        {
+            bools.Add(false);
+        }
+
+        List<EnumSpawnebleObjects> spawnebleObjects = new List<EnumSpawnebleObjects>();
+        for (int i = 0; i < PlatformSpawner.Instance._SpawnebleObjectPositions.Count; i++)
+        {
+            spawnebleObjects.Add(EnumSpawnebleObjects.None);
+        }
+        _currentPlatform = new Platform(bools, spawnebleObjects, true);
+        _platform.Add(_currentPlatform);
+    }
 
     public void Exit(EnumEndPoints endPoints)
     {
+        if (_onExitCooldown || _aliveEnemies != 0)
+        {
+            return;
+        }
+        _currentPlatform._completed = true;
+        _onExitCooldown = true;
+        Invoke("Cooldown",1);
+
+        _player._rigidbody.velocity = new Vector3(0, 0, 0);
+        _player.transform.position = new Vector3(-_player.transform.position.x, _player.transform.position.y, -_player.transform.position.z);
+
         switch (endPoints)
         {
             case EnumEndPoints.Top:
                 _currentMapPosition.y++;
+
                 break;
             case EnumEndPoints.Left:
                 _currentMapPosition.x--;
@@ -39,7 +90,13 @@ public class PlatformManeger : MonoBehaviour
         }
         _Positions.Add(_currentMapPosition);
         _currentPlatform = RandomizePlatform();
+        _platform.Add(_currentPlatform);
         PlatformSpawner.Instance.SpawnPlatform(_currentPlatform);
+    }
+
+    void Cooldown()
+    {
+        _onExitCooldown = false;
     }
 
     private Platform RandomizePlatform()
@@ -53,10 +110,10 @@ public class PlatformManeger : MonoBehaviour
         List<EnumSpawnebleObjects> randomSpawnebleObjects = new List<EnumSpawnebleObjects>();
         for (int i = 0; i < PlatformSpawner.Instance._SpawnebleObjectPositions.Count; i++)
         {
-            randomSpawnebleObjects.Add((EnumSpawnebleObjects)Random.Range(0,3));
+            randomSpawnebleObjects.Add((EnumSpawnebleObjects)Random.Range(0,4));
         }
 
-        return new Platform(randomBools, randomSpawnebleObjects);
+        return new Platform(randomBools, randomSpawnebleObjects, false);
     }
 }
 

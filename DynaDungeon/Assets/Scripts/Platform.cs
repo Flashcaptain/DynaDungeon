@@ -9,9 +9,12 @@ public class Platform
 
     public List<EnumSpawnebleObjects> _spawnebleObjects = new List<EnumSpawnebleObjects>();
 
-    public Platform(List<bool> walls, List<EnumSpawnebleObjects> spawnebleObjects)
+    public bool _completed;
+
+    public Platform(List<bool> walls, List<EnumSpawnebleObjects> spawnebleObjects, bool completed)
     {
         _Walls = walls;
         _spawnebleObjects = spawnebleObjects;
+        _completed = completed;
     }
 }

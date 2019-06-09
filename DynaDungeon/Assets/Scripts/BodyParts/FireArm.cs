@@ -16,6 +16,8 @@ public class FireArm : MonoBehaviour
     [SerializeField]
     private List<Transform> _barrels;
 
+    private float _damage;
+
     private void Start()
     {
         GetComponentInParent<Enemy>().AddStats(_health, 0, _roundsPerSecond, null);
@@ -23,10 +25,8 @@ public class FireArm : MonoBehaviour
 
     public void Fire(Bullet bullet)
     {
-
-        float damage = bullet._damage;
-        damage = (float)bullet._startDamage / (float)_barrels.Count;
-        bullet._damage = Mathf.RoundToInt(damage);
+        _damage = (float)bullet._startDamage / (float)_barrels.Count;
+        bullet._damage = Mathf.RoundToInt(_damage);
         bullet._distance = bullet._startDistance + _distance;
 
         for (int i = 0; i < _barrels.Count; i++)
