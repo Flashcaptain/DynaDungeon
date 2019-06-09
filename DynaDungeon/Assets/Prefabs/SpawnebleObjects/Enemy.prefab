@@ -94,7 +94,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.46226418, g: 0.46226418, b: 0.46226418, a: 0.5882353}
+  m_Color: {r: 0.16166785, g: 0.16470589, b: 0.21568628, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -308,7 +308,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 1}
-  m_SizeDelta: {x: 2, y: 0.2}
+  m_SizeDelta: {x: 1.2, y: 0.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &1505528557
 Canvas:
@@ -462,7 +462,6 @@ MonoBehaviour:
   - {fileID: 925149295701709875}
   - {fileID: 925149295446374265}
   - {fileID: 925149294037629585}
-  _bashForce: 10
   _holder: {fileID: 681430427066191870}
   _fireArms:
   - {fileID: 4694425488772400583, guid: 32c3643fed4a74042abea0332d982d5b, type: 3}
