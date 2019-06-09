@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bullet: {fileID: 4503289378536904177, guid: 86f23625a98af4dbfab4970fe0770770, type: 3}
-  _roundsPerSecond: 1
+  _roundsPerSecond: 3.2
   _health: 12
 --- !u!1 &4015050344271160118
 GameObject:

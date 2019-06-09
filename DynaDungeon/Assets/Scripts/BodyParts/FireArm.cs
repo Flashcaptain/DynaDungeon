@@ -9,9 +9,9 @@ public class FireArm : MonoBehaviour
 
     [SerializeField]
     protected float _roundsPerSecond;
-    
+
     [SerializeField]
-    protected int _distance;
+    protected float _distance;
 
     [SerializeField]
     private List<Transform> _barrels;
@@ -23,10 +23,12 @@ public class FireArm : MonoBehaviour
 
     public void Fire(Bullet bullet)
     {
+
         float damage = bullet._damage;
-        bullet._damage = Mathf.RoundToInt(damage / _barrels.Count);
-        Debug.Log(damage);
-        bullet._distance += _distance;
+        damage = (float)bullet._startDamage / (float)_barrels.Count;
+        bullet._damage = Mathf.RoundToInt(damage);
+        bullet._distance = bullet._startDistance + _distance;
+
         for (int i = 0; i < _barrels.Count; i++)
         {
             Instantiate(bullet, _barrels[i].transform.position, _barrels[i].transform.rotation);

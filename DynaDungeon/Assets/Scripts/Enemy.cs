@@ -5,7 +5,7 @@ using UnityEngine;
 public class Enemy : Actor
 {
     [SerializeField]
-    private int _bashForce;
+    private Transform _holder;
 
     [SerializeField]
     private List<FireArm> _fireArms;
@@ -35,17 +35,20 @@ public class Enemy : Actor
     private void Start()
     {
         _player = FindObjectOfType<Player>();
-        _fireArm = Instantiate(_fireArms[Random.Range(0, _fireArms.Count)], transform);
-        _targetHead = Instantiate(_targetHeads[Random.Range(0, _targetHeads.Count)], transform);
-        _movementLeg = Instantiate(_movementLegs[Random.Range(0, _movementLegs.Count)], transform);
-        Instantiate(_ammoArms[Random.Range(0, _ammoArms.Count)], transform);
-        Instantiate(_statTorsos[Random.Range(0, _statTorsos.Count)], transform);
-        Instantiate(_statBoots[Random.Range(0, _statBoots.Count)], transform);
+        _fireArm = Instantiate(_fireArms[Random.Range(0, _fireArms.Count)], _holder);
+        _targetHead = Instantiate(_targetHeads[Random.Range(0, _targetHeads.Count)], _holder);
+        _movementLeg = Instantiate(_movementLegs[Random.Range(0, _movementLegs.Count)], _holder);
+        Instantiate(_ammoArms[Random.Range(0, _ammoArms.Count)], _holder);
+        Instantiate(_statTorsos[Random.Range(0, _statTorsos.Count)], _holder);
+        Instantiate(_statBoots[Random.Range(0, _statBoots.Count)], _holder);
     }
 
     public void AddStats(int health, int speed, float roundsPerSecond, Bullet bullet)
     {
         _health += health;
+        _maxHealth = _health;
+        _healthBar.maxValue = _maxHealth;
+        _healthBar.value = _maxHealth;
         _speed += speed;
         _roundsPerSecond += roundsPerSecond;
 
@@ -63,12 +66,14 @@ public class Enemy : Actor
             _rigidbody.angularVelocity /= 1.8f;
             return;
         }
-        Debug.Log("move");
         Rotation();
         Movement();
-        Shoot();
         GroundCheck();
 
+        if (!_isReloading)
+        {
+            Shoot();
+        }
     }
 
     protected override void Rotation()
@@ -98,8 +103,8 @@ public class Enemy : Actor
         }
         if (onGroundPoints == 0)
         {
-            Debug.Log("fall");
             _isAlive = false;
+            _animator.SetTrigger(_fallAnimation);
         }
     }
 
@@ -107,7 +112,7 @@ public class Enemy : Actor
     {
         _fireArm.Fire(_bullet);
         _isReloading = true;
-        Invoke("Reload", -1 / _roundsPerSecond);
+        Invoke("Reload", 1 / _roundsPerSecond);
     }
 
     void Reload()
@@ -115,15 +120,8 @@ public class Enemy : Actor
         _isReloading = false;
     }
 
-    private void OnCollisionEnter(Collision other)
+    protected override void Death()
     {
-        Player player = other.collider.GetComponent<Player>();
-        if (player != null)
-        {
-            TakeDamage(_bashForce);
-            player.TakeDamage(_bashForce);
-            _rigidbody.AddForce(-transform.forward * _bashForce);
-            player._rigidbody.velocity = transform.forward * _bashForce;
-        }
+
     }
 }

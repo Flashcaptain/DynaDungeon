@@ -1601,4 +1601,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _health: 30
   _speed: 2
-  _roundsPerSecond: 0.1
+  _roundsPerSecond: 0.3

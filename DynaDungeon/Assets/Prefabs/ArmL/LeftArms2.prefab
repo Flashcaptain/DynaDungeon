@@ -122,5 +122,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bullet: {fileID: 4503289378536904177, guid: 156e90d0d020c41a2ba587f2a7419629, type: 3}
-  _roundsPerSecond: 0.8
+  _roundsPerSecond: 2.8
   _health: 25

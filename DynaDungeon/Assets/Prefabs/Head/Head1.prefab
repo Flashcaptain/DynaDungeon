@@ -9255,4 +9255,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _health: 5
   _speed: 2
-  _roundsPerSecond: 0
+  _roundsPerSecond: 0.1

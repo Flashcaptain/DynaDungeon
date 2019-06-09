@@ -91,10 +91,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c276407c538d94e60a718912e139d93f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _startDamage: 3
+  _startDistance: 18
   _damage: 6
-  _speed: 2
   _distance: 10
-  _material: {fileID: 2100000, guid: 11a1a6b3e206646d4853efeb4ca60b08, type: 2}
+  _startSpeed: 10
 --- !u!65 &3664843512434019641
 BoxCollider:
   m_ObjectHideFlags: 0

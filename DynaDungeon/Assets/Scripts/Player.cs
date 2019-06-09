@@ -4,6 +4,17 @@ using UnityEngine;
 
 public class Player : Actor
 {
+    [SerializeField]
+    private int _bashForce;
+
+    [SerializeField]
+    private float _dashCoolDownTime;
+
+    [SerializeField]
+    private float _dashForce;
+
+    [SerializeField]
+    private float _dashTime;
 
     [SerializeField]
     private float _weelSpeed;
@@ -22,10 +33,14 @@ public class Player : Actor
 
     private float _drag;
     private bool _isReloading;
+    private bool _isCooldown;
 
     private void Start()
     {
         _drag = _rigidbody.drag;
+        _maxHealth = _health;
+        _healthBar.maxValue = _maxHealth;
+        _healthBar.value = _maxHealth;
     }
 
     void Update()
@@ -44,6 +59,11 @@ public class Player : Actor
         if (Input.GetKey(KeyCode.Mouse0) && !_isReloading)
         {
             Shoot();
+        }
+
+        if (Input.GetKey(KeyCode.Mouse1) && !_isCooldown)
+        {
+            Dash();
         }
 
     }
@@ -100,6 +120,7 @@ public class Player : Actor
         if (onGroundPoints == 0)
         {
             _isAlive = false;
+            _animator.SetTrigger(_fallAnimation);
         }
         else if (onGroundPoints == _groundCheck.Count)
         {
@@ -114,11 +135,54 @@ public class Player : Actor
             Instantiate(_bullet, _barrels[i].transform.position, _barrels[i].transform.rotation);
         }
         _isReloading = true;
-        Invoke("Reload", -1 / _roundsPerSecond);
+        Invoke("Reload", 1 / _roundsPerSecond);
     }
 
     void Reload()
     {
         _isReloading = false;
+    }
+
+    void Dash()
+    {
+        _rigidbody.velocity += transform.forward * _dashForce;
+        _isCooldown = true;
+        _isImumme = true;
+        Invoke("DashEnd", _dashTime);
+        Invoke("CoolingDown", _dashCoolDownTime);
+    }
+
+    void DashEnd()
+    {
+        _isImumme = false;
+    }
+
+    void CoolingDown()
+    {
+        _isCooldown = false;
+    }
+
+    protected override void Death()
+    {
+
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        Enemy enemy = other.collider.GetComponent<Enemy>();
+        if (enemy != null)
+        {
+            TakeDamage(_bashForce);
+            enemy.TakeDamage(_bashForce);
+            _rigidbody.velocity = enemy.transform.forward * _bashForce;
+            if (_isImumme)
+            {
+                enemy._rigidbody.velocity = -enemy.transform.forward * (_dashForce * 2);
+            }
+            else
+            {
+                enemy._rigidbody.velocity = -enemy.transform.forward * _dashForce;
+            }
+        }
     }
 }
