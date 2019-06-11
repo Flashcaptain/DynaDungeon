@@ -25,11 +25,6 @@ public class FireArm : MonoBehaviour
 
     public void Fire(Bullet bullet)
     {
-        if (bullet == null)
-        {
-            return;
-        }
-
         _damage = (float)bullet._startDamage / (float)_barrels.Count;
         bullet._damage = Mathf.RoundToInt(_damage);
         bullet._distance = bullet._startDistance + _distance;

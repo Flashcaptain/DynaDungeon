@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlatformManeger : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class PlatformManeger : MonoBehaviour
     private Player _player;
 
     [SerializeField]
+    private Text _counterText;
+
+    [SerializeField]
     private Vector2 _currentMapPosition = new Vector2(0,0);
 
     private List<Vector2> _Positions = new List<Vector2>();
@@ -19,6 +23,7 @@ public class PlatformManeger : MonoBehaviour
 
     private Platform _currentPlatform;
     private bool _onExitCooldown;
+    private int _levelsCompleted;
 
     private void Awake()
     {
@@ -88,6 +93,8 @@ public class PlatformManeger : MonoBehaviour
                 return;
             }
         }
+        _levelsCompleted++;
+        _counterText.text = "Levels completed: " + _levelsCompleted;
         _Positions.Add(_currentMapPosition);
         _currentPlatform = RandomizePlatform();
         _platform.Add(_currentPlatform);

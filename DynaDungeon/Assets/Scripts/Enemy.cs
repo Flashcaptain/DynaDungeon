@@ -70,7 +70,7 @@ public class Enemy : Actor
         Movement();
         GroundCheck();
 
-        if (!_isReloading)
+        if (!_isReloading && _bullet != null)
         {
             Shoot();
         }
