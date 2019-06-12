@@ -92,7 +92,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _startDamage: 4
-  _startDistance: 10
+  _startDistance: 12
   _damage: 1
   _distance: 10
   _startSpeed: 25
