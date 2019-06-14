@@ -60,6 +60,8 @@ public class Enemy : Actor
 
     void Update()
     {
+        if (MenuControler._menuControler._isPause) { return; }
+
         if (!_isAlive || !_targetHead.CanSeePlayer(_player))
         {
             _rigidbody.velocity /= 1.8f;

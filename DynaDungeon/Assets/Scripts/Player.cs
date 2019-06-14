@@ -31,9 +31,16 @@ public class Player : Actor
     [SerializeField]
     private List<Transform> _barrels;
 
+    [SerializeField]
+    private Animator _mainMenuAnimator;
+
+    [SerializeField]
+    private string _deathTrigger;
+
     private float _drag;
     private bool _isReloading;
     private bool _isCooldown;
+    private bool _triggerdDeath;
 
     private void Start()
     {
@@ -46,10 +53,13 @@ public class Player : Actor
     }
     void Update()
     {
+        if (MenuControler._menuControler._isPause) { return; }
+
         if (!_isAlive)
         {
             _rigidbody.velocity /= 1.8f;
             _rigidbody.angularVelocity /= 1.8f;
+            Death();
             return;
         }
 
@@ -165,7 +175,11 @@ public class Player : Actor
 
     protected override void Death()
     {
-
+        if (!_triggerdDeath)
+        {
+            _triggerdDeath = true;
+            _mainMenuAnimator.SetTrigger(_deathTrigger);
+        }
     }
 
     private void OnCollisionEnter(Collision other)
