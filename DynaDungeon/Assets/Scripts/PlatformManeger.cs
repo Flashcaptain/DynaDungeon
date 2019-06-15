@@ -91,6 +91,7 @@ public class PlatformManeger : MonoBehaviour
         _currentPlatform = RandomizePlatform();
         _platform.Add(_currentPlatform);
         PlatformSpawner.Instance.SpawnPlatform(_currentPlatform);
+        ScoreManeger.Instance.AddPoints(50);
     }
 
     void Cooldown()

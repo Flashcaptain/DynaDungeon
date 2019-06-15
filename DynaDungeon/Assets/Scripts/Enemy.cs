@@ -60,7 +60,10 @@ public class Enemy : Actor
 
     void Update()
     {
-        if (MenuControler._menuControler._isPause) { return; }
+        if (MenuControler.Instance._isPause)
+        {
+            return;
+        }
 
         if (!_isAlive || !_targetHead.CanSeePlayer(_player))
         {
@@ -125,6 +128,7 @@ public class Enemy : Actor
 
     protected override void Death()
     {
+        ScoreManeger.Instance.AddPoints(40);
         PlatformManeger.Instance._aliveEnemies--;
     }
 }

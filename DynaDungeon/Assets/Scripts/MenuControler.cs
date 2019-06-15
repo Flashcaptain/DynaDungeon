@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class MenuControler : MonoBehaviour
 {
-    public static MenuControler _menuControler;
+    public static MenuControler Instance;
 
     public bool _isPause;
 
@@ -21,22 +21,13 @@ public class MenuControler : MonoBehaviour
 
     private void Awake()
     {
-        _menuControler = this;
-        Time.timeScale = 0;
+        Instance = this;
         _isPause = true;
     }
 
     public void SetPause(bool isPause)
     {
         _isPause = isPause;
-        if (isPause)
-        {
-            Time.timeScale = 0;
-        }
-        else
-        {
-            Time.timeScale = 1;
-        }
     }
 
     public void ReloudScene()

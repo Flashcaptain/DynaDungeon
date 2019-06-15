@@ -53,7 +53,10 @@ public class Player : Actor
     }
     void Update()
     {
-        if (MenuControler._menuControler._isPause) { return; }
+        if (MenuControler.Instance._isPause)
+        {
+            return;
+        }
 
         if (!_isAlive)
         {
