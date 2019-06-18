@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MenuControler : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class MenuControler : MonoBehaviour
     public bool _isPause;
 
     public bool _reloadScene;
+
+    [SerializeField]
+    private List<Text> _highScoreText;
 
     private void Update()
     {
@@ -39,4 +43,10 @@ public class MenuControler : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void Highscore()
+    {
+        ScoreManeger.Instance.SetHighscoreTesxt(_highScoreText);
+    }
 }
+

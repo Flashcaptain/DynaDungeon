@@ -182,6 +182,7 @@ public class Player : Actor
         {
             _triggerdDeath = true;
             _mainMenuAnimator.SetTrigger(_deathTrigger);
+            ScoreManeger.Instance.SavePoints();
         }
     }
 

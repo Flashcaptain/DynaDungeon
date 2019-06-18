@@ -69,9 +69,10 @@ public abstract class Actor : MonoBehaviour
     protected void OnTriggerEnter(Collider other)
     {
         Bullet bullet = other.GetComponent<Bullet>();
-        if (bullet != null)
+        if (bullet != null && _isAlive)
         {
             TakeDamage(bullet._damage);
+            Destroy(bullet.gameObject);
         }
     }
 }
