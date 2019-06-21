@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class ScoreManeger : MonoBehaviour
 {
-    public static ScoreManeger Instance;
-
+    public static ScoreManeger Instance;  
+      
     [SerializeField]
     private float _pointsForUpgrade;
 
@@ -29,6 +29,9 @@ public class ScoreManeger : MonoBehaviour
 
     private Text _scoreText;
     private Text _levelText;
+
+    [SerializeField]
+    private GameObject _upgradeManager;
 
     [SerializeField]
     private List<int> _highscores = new List<int>();
@@ -90,7 +93,9 @@ public class ScoreManeger : MonoBehaviour
     private void LevelUp()
     {
         _currentLevel++;
-        Debug.Log("Level: " + _currentLevel);
+        MenuControler.Instance.SetPause(true);
+        Time.timeScale = 0;
+        _upgradeManager.SetActive(true);
     }
 
     private void TestHighscores(int score)

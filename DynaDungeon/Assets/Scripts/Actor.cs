@@ -57,6 +57,11 @@ public abstract class Actor : MonoBehaviour
                 _isAlive = false;
                 Death();
             }
+
+            if (_health >= _maxHealth)
+            {
+                _health =_maxHealth;
+            }
             _healthBar.value = _health;
         }
     }

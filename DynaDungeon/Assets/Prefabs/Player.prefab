@@ -518,7 +518,7 @@ Transform:
   m_GameObject: {fileID: 1983451143}
   m_LocalRotation: {x: 0, y: 0.38268343, z: 0, w: 0.92387956}
   m_LocalPosition: {x: 0, y: -4, z: 0}
-  m_LocalScale: {x: 100, y: 0.1, z: 100}
+  m_LocalScale: {x: 200, y: 0.01, z: 200}
   m_Children: []
   m_Father: {fileID: 2861422922045152086}
   m_RootOrder: 2
@@ -3225,6 +3225,7 @@ MonoBehaviour:
   _bashForce: 8
   _dashCoolDownTime: 5
   _dashForce: 10
+  _dashAmplifier: 2
   _dashTime: 0.75
   _weelSpeed: 5
   _brakeSpeed: 0.25
@@ -3233,6 +3234,8 @@ MonoBehaviour:
   _barrels:
   - {fileID: 2861422923242776801}
   - {fileID: 2861422922170829678}
+  _mainMenuAnimator: {fileID: 0}
+  _deathTrigger: Stop
 --- !u!135 &2861422922045152085
 SphereCollider:
   m_ObjectHideFlags: 0

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Player : Actor
 {
+    public static Player Instance;
+
     [SerializeField]
     private int _bashForce;
 
@@ -12,6 +14,9 @@ public class Player : Actor
 
     [SerializeField]
     private float _dashForce;
+    
+    [SerializeField]
+    private float _dashAmplifier;
 
     [SerializeField]
     private float _dashTime;
@@ -44,6 +49,7 @@ public class Player : Actor
 
     private void Start()
     {
+        Instance = this;
         _drag = _rigidbody.drag;
         _maxHealth = _health;
         _healthBar.maxValue = _maxHealth;
@@ -196,7 +202,7 @@ public class Player : Actor
             _rigidbody.velocity = enemy.transform.forward * _bashForce;
             if (_isImumme)
             {
-                enemy._rigidbody.velocity = -enemy.transform.forward * (_dashForce * 2);
+                enemy._rigidbody.velocity = -enemy.transform.forward * (_dashForce * _dashAmplifier);
             }
             else
             {
@@ -216,5 +222,25 @@ public class Player : Actor
             health.PickUp();
             return;
         }
+    }
+
+    public void UpgradeWeapon()
+    {
+        _roundsPerSecond += 1;
+        _bullet._distance += 1;
+    }
+
+    public void UpgradeHealth()
+    {
+        _maxHealth += 25;
+        _healthBar.maxValue += 25;
+        TakeDamage(-40);
+    }
+
+    public void UpgradeDash()
+    {
+        _dashAmplifier += 0.2f;
+        _dashCoolDownTime -= 0.25f;
+        _speed += 1;
     }
 }
