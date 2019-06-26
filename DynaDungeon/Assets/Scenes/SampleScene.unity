@@ -9173,6 +9173,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 2861422922045152087, guid: 144bdd68f3b924aff8ea7462f44805ce,
+        type: 3}
+      propertyPath: _mainMenuAnimator
+      value: 
+      objectReference: {fileID: 1855714345}
     - target: {fileID: 2861422922045152086, guid: 144bdd68f3b924aff8ea7462f44805ce,
         type: 3}
       propertyPath: m_LocalPosition.x
